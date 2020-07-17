@@ -3,15 +3,18 @@ package com.wlp.student
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
+import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.provisioning.InMemoryUserDetailsManager
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import java.util.stream.Collectors
 
 @Configuration
@@ -26,6 +29,10 @@ class ConfigurationApi : WebSecurityConfigurerAdapter() {
         http
                 .csrf()
                 .disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilter(JwtUserAndPasswordAuthenticationFilter(authenticationManager()))
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/api/**").hasAnyAuthority(UserPermissions.INDRA_READ.permission,UserPermissions.BNL_READ.permission)
                 .antMatchers(HttpMethod.DELETE, "/api/**").hasAuthority(UserPermissions.BNL_DELETE.permission)
@@ -35,7 +42,10 @@ class ConfigurationApi : WebSecurityConfigurerAdapter() {
                 .anyRequest()
                 .authenticated()
                 .and()
-                .httpBasic()
+                .formLogin()
+                //.loginPage("/login")
+                //.defaultSuccessUrl("/index")
+                //.permitAll()
     }
 
     @Bean

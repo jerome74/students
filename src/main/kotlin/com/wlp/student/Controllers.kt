@@ -2,6 +2,7 @@ package com.wlp.student
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
+import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -11,6 +12,10 @@ class RestStudentController
     @Autowired
     lateinit var studentRepository: StudentRepository
 
+
+    @GetMapping(path = ["{login}"] , produces= [MediaType.APPLICATION_JSON_VALUE] )
+    fun login(@RequestBody credential : UserAndPasswordAuthenticationRequest) {
+    }
 
     @GetMapping(path = ["{studentId}"] , produces= [MediaType.APPLICATION_JSON_VALUE] )
     fun getStudent(@PathVariable studentId : Int) : Student {
@@ -39,3 +44,4 @@ class RestStudentController
         return studentRepository.save(originalStudent)
     }
 }
+
