@@ -13,7 +13,7 @@ class RestStudentController
     lateinit var studentRepository: StudentRepository
 
 
-    @GetMapping(path = ["{login}"] , produces= [MediaType.APPLICATION_JSON_VALUE] )
+    @GetMapping(path = ["/login/{login}"] , produces= [MediaType.APPLICATION_JSON_VALUE] )
     fun login(@RequestBody credential : UserAndPasswordAuthenticationRequest) {
     }
 

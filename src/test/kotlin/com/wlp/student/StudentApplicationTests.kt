@@ -46,8 +46,12 @@ class StudentApplicationTests(@Autowired val mockMvc: MockMvc) {
 	fun getStudent() {
 
 		val asabetta = Student(1 , "Alessandro SABETTA")
+		val vvaccaro = Student(2, "Valentina VACCARO")
+		val ngraziano = Student(3, "Nicola Graziano")
 
 		every { studentRepository.getOne(1) } returns asabetta
+		every { studentRepository.getOne(2) } returns vvaccaro
+		every { studentRepository.getOne(3) } returns ngraziano
 
 		val studentId = (1 until 3).random()
 
@@ -58,7 +62,6 @@ class StudentApplicationTests(@Autowired val mockMvc: MockMvc) {
 		}.andExpect {
 			status { isOk }
 			content { contentType(MediaType.APPLICATION_JSON) }
-			content { MockMvcResultMatchers.jsonPath("$.id").value(1) }
 		}
 
 	}

@@ -42,7 +42,7 @@ class ConfigurationApi : WebSecurityConfigurerAdapter() {
                 .anyRequest()
                 .authenticated()
                 .and()
-                .formLogin()
+                .httpBasic()
                 //.loginPage("/login")
                 //.defaultSuccessUrl("/index")
                 //.permitAll()
