@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: client-x509
+
+server:
+  port: 8086
+
+logging:
+  level:
+    org.springframework.security: DEBUG
